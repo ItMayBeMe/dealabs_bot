@@ -31,6 +31,27 @@ class MyClient(discord.Client):
                 self.notifiers['{0}:{1}'.format(conf.get("type"), categorie)].append(notifier)
         print(self.notifiers)
 
+    async def on_message(self, message):
+        if message.content.startswith("!dsearch "):
+            keyword = message.content[9:]
+            deals = dealabs.search_deals(
+                params={
+                    "order_by": "hot",
+                    "query": keyword
+                }
+            )
+            embed = discord.Embed(title=f"Search - {keyword}", color=0x00ff00)
+            for deal in deals["data"]:
+                embed.add_field(
+                    name=f"[{deal['title']}]", 
+                    value=":euro: {}€ - {}:fire: - [Lien]({})".format(
+                        deal.get("price", "Unknown"),
+                        deal['temperature_rating'],
+                        deal['deal_uri']
+                    ), 
+                    inline=False
+                )
+            await message.channel.send(embed=embed)
     async def my_background_task(self):
         try:
             await self.wait_until_ready()
