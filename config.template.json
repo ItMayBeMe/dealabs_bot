@@ -1,7 +1,9 @@
 {
-    "BOT_TOKEN": "",
+    "BOT_TOKEN": "<bot_token>",
+    "BOT_PREFIX": "d!",
+    "LOG_LEVEL": "INFO",
     "channels": {
-        "593747695655452672": {
+        "<channel_id>": {
             "categories": [],
             "keywords": [],
             "type": "new"
